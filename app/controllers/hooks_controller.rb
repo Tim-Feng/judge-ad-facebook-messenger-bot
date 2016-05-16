@@ -5,4 +5,10 @@ class HooksController < ActionController::Base
     render json: challenge
   end
 
+  def messenger_created_callback
+    execute = ReplyService.new(params)
+    execute.reply_request
+    render json: "test"
+  end
+
 end
