@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'therubyracer', platforms: :ruby
 gem 'mysql2'
 gem 'facebook-messenger'
+gem 'figaro'
 
 group :development do
   gem "capistrano", "~> 3.4"
