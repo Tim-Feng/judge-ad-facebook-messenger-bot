@@ -14,6 +14,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'mysql2'
 gem 'facebook-messenger'
 gem 'figaro'
+gem 'rest_client'
 
 group :development do
   gem "capistrano", "~> 3.4"
@@ -30,7 +31,7 @@ group :development do
   gem 'spring'
 end
 
-group :production do
-  gem 'pg'
-  gem 'rails_12factor'
-end
+# group :production do
+  # gem 'pg'
+  # gem 'rails_12factor'
+# end
