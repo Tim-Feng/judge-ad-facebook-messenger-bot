@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'therubyracer', platforms: :ruby
 gem 'mysql2'
 gem 'facebook-messenger'
+gem 'settingslogic'
 
 group :development do
   gem "capistrano", "~> 3.4"
@@ -22,6 +23,10 @@ end
 
 group :development, :test do
   gem 'byebug'
+  gem 'rails-pry'
+  gem 'pry-rescue'
+  gem 'pry-stack_explorer'
+  gem 'pry-byebug'
 end
 
 group :development do

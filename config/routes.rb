@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
+  mount Facebook::Messenger::Server, at: 'bot'
   root 'welcome#index'
-  get '/hooks' => 'hooks#messenger_verify_callback'
 end
