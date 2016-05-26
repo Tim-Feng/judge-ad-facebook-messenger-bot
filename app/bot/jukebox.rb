@@ -6,7 +6,7 @@ Bot.on :message do |message|
   message.seq
   message.text
 
-  result = MatchTagService.new(message).match
+  result = MatchTagService.new.match(message.sender["id"], message.text.downcase)
   # if matched, then return bot message, or return nothing
   if result
     Bot.deliver(
@@ -22,5 +22,22 @@ Bot.on :message do |message|
       }
     )
   else
+  end
+end
+
+Bot.on :postback do |postback|
+  postback.sender    # => { 'id' => '1008372609250235' }
+  postback.recipient # => { 'id' => '2015573629214912' }
+  postback.sent_at   # => 2016-04-22 21:30:36 +0200
+  postback.payload   # => 'EXTERMINATE'
+
+  if postback.payload.include? 'CF_TAGS_OF_'
+    message_with_tags = MatchTagService.new.find_tags(postback.payload)
+    Bot.deliver(
+      recipient: postback.sender,
+      message: {
+        text: message_with_tags
+      }
+    )
   end
 end
