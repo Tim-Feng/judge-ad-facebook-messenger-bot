@@ -75,6 +75,7 @@ class MatchTagService
 
   def increate_user_searched_tag_and_count
     user = User.find_by(facebook_user_id: @sender_id)
+    user.searched_tag_and_count = {}
     count = {}
     user.searched_tag_and_count[@tag.name] ? user.searched_tag_and_count[@tag.name] += 1 : count[@tag.name] = 1
     user.searched_tag_and_count.merge!(count)
