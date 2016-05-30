@@ -5,21 +5,12 @@ Bot.on :message do |message|
   message.sender
   message.seq
   message.text
-
   result = MatchTagService.new.match(message.sender["id"], message.text.downcase)
   # if matched, then return bot message, or return nothing
   if result
     Bot.deliver(
       recipient: message.sender,
-      message: {
-        attachment: {
-          type: "template",
-          payload: {
-            template_type: "generic",
-            elements: result
-          }
-        }
-      }
+      message: result
     )
   else
   end

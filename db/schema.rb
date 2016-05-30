@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160525030553) do
+ActiveRecord::Schema.define(version: 20160527141535) do
 
   create_table "commercial_film_tagships", force: :cascade do |t|
     t.integer "commercial_film_id", limit: 4
@@ -27,9 +27,15 @@ ActiveRecord::Schema.define(version: 20160525030553) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "searched_count", limit: 4,   default: 0
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "facebook_user_id",       limit: 255
+    t.text   "searched_tag_and_count", limit: 65535
   end
 
 end
