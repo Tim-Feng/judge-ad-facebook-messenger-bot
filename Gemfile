@@ -12,7 +12,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'therubyracer', platforms: :ruby
 gem 'mysql2'
-gem "facebook-messenger",  git: "git://github.com/hyperoslo/facebook-messenger.git", branch: "master"
+gem "facebook-messenger"
+# gem "facebook-messenger",  git: "git://github.com/hyperoslo/facebook-messenger.git", branch: "master"
 gem 'settingslogic'
 gem 'roo', '~> 2.4.0'
 
