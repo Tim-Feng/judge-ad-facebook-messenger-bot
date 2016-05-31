@@ -95,10 +95,12 @@ class MatchTagService
   end
 
   def bot_deliver_greeting_message
+    Settings.reload!
     { text: Settings.greeting_message }
   end
 
   def bot_deliver_jukebox_guide_message
+    Settings.reload!
     hot_tags = Tag.order(searched_count: :desc).limit(5)
     tag_list = ""
     hot_tags.each do |tag|
