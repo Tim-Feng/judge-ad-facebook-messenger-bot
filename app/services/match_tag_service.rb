@@ -16,6 +16,10 @@ class MatchTagService
         increate_user_searched_tag_and_count
         random_cf = reply_random_cf
         return bot_deliver_cf(random_cf)
+      when "mh"
+        bot_deliver_hot_tag
+      when "ma"
+        bot_deliver_all_tag
       end
     rescue => e
       return
@@ -33,7 +37,7 @@ class MatchTagService
       return "這支影片的標籤有：" +
              "\n\n" +
              tag_list +
-             "\n請挑一個您有興趣的標籤，並且回傳【 】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您"
+             "\n請挑一個您有興趣的標籤，並且回傳【  】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您，如果要看熱門標籤，請回覆【mh】"
     end
   end
 
@@ -109,7 +113,35 @@ class MatchTagService
     message = Settings.guide_message +
              "\n\n" +
              tag_list +
-            "\n請挑一個您有興趣的標籤，並且回傳【 】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您"
+            "\n請挑一個您有興趣的標籤，並且回傳【  】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您"
+    { text: message }
+  end
+
+  def bot_deliver_hot_tag
+    Settings.reload!
+    hot_tags = Tag.order(searched_count: :desc).limit(5)
+    tag_list = ""
+    hot_tags.each do |tag|
+      tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
+    end
+    message = "目前的熱門標籤依序是：" +
+             "\n\n" +
+             tag_list +
+            "\n請挑一個您有興趣的標籤，並且回傳【  】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您，如果要看熱門標籤，請回覆【ma】"
+    { text: message }
+  end
+
+  def bot_deliver_all_tag
+    Settings.reload!
+    all_tags = Tag.order(searched_count: :desc)
+    tag_list = ""
+    all_tags.each do |tag|
+      tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
+    end
+    message = "以下是所有標籤，依照熱門程度排列：" +
+             "\n\n" +
+             tag_list +
+            "\n請挑一個您有興趣的標籤，並且回傳【  】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您，如果要看熱門標籤，請回覆【mh】"
     { text: message }
   end
 
