@@ -5,14 +5,16 @@ Bot.on :message do |message|
   message.sender
   message.seq
   message.text
-  result = MatchTagService.new.match(message.sender["id"], message.text.downcase)
-  # if matched, then return bot message, or return nothing
-  if result
-    Bot.deliver(
-      recipient: message.sender,
-      message: result
-    )
-  else
+  if message.text
+    result = MatchTagService.new.match(message.sender["id"], message.text.downcase)
+   # if matched, then return bot message, or return nothing
+    if result
+      Bot.deliver(
+        recipient: message.sender,
+        message: result
+      )
+    else
+    end
   end
 end
 
