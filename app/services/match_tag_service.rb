@@ -10,7 +10,7 @@ class MatchTagService
         bot_deliver_greeting_message
       when "m"
         bot_deliver_jukebox_guide_message
-      when "m1", "m2", "m3", "m4", "m5"
+      when "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "m10", "m11", "m12", "m13", "m14", "m15", "m16", "m17", "m18", "m19", "m20", "m21", "m22", "m23", "m24", "m25"
         register_user
         increase_tag_searched_count
         increate_user_searched_tag_and_count
