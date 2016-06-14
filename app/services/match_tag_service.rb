@@ -18,7 +18,7 @@ class MatchTagService
         return bot_deliver_cf(random_cf)
       when "mh"
         bot_deliver_hot_tag
-      when "ma"
+      when "ma1", "ma2", "ma3"
         bot_deliver_all_tag
       end
     rescue => e
@@ -107,7 +107,9 @@ class MatchTagService
     Settings.reload!
     message = Settings.guide_message + "\n\n" +
               "【 mh 】熱門主題"+ "\n" +
-              "【 ma 】全部主題"+ "\n\n" +
+              "【 ma1 】全部主題第一頁"+ "\n" +
+              "【 ma2 】全部主題第二頁"+ "\n" +
+              "【 ma3 】全部主題第三頁"+ "\n\n" +
               "請回傳【  】內的代碼以獲取主題清單。"
     { text: message }
   end
@@ -128,15 +130,19 @@ class MatchTagService
 
   def bot_deliver_all_tag
     Settings.reload!
-    all_tags = Tag.order(searched_count: :desc)
-    tag_list = ""
+    tag_count     = Tag.all.count
+    total_page    = (tag_count % 10 == 0) ? (tag_count / 10 ) : (tag_count / 10 + 1)
+    page_of_tag   = @text.gsub("ma","").to_i
+    offset_of_tag = (  page_of_tag - 1) * 10
+    all_tags      = Tag.limit(10).offset(offset_of_tag)
+    tag_list      = ""
     all_tags.each do |tag|
       tag_list = tag_list + "【m#{tag.id}】#{tag.name}" + "\n"
     end
-    message = "以下是所有主題，依照熱門程度排列：" +
+    message = "以下是所有主題的第#{page_of_tag}頁(一共#{total_page}頁)，依照熱門程度排列：" +
              "\n\n" +
              tag_list +
-            "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您，如果要看熱門主題，請回覆【 mh 】"
+            "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您，如果要看熱門主題，請回覆【 mh 】，要看其他頁主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
     { text: message }
   end
 
