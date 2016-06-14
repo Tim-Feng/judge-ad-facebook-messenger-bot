@@ -124,7 +124,8 @@ class MatchTagService
     message = "目前的熱門主題依序是：" +
              "\n\n" +
              tag_list +
-            "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您，如果要看所有主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
+            "\n請回傳【  】內的代碼，隨機欣賞三支廣告" + "\n\n"
+            "看所有主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
     { text: message }
   end
 
@@ -139,10 +140,12 @@ class MatchTagService
     all_tags.each do |tag|
       tag_list = tag_list + "【m#{tag.id}】#{tag.name}" + "\n"
     end
-    message = "以下是所有主題的第#{page_of_tag}/#{total_page}頁)：" +
+    message = "以下是所有主題的第#{page_of_tag} / #{total_page}頁：" +
              "\n\n" +
              tag_list +
-            "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您，如果要看熱門主題，請回覆【 mh 】，要看其他頁主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
+            "\n請回傳【  】內的代碼，隨機欣賞三支廣告。" + "\n\n"
+            "看熱門主題，請回覆【 mh 】" + "\n\n"
+            "看其他主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
     { text: message }
   end
 
