@@ -105,15 +105,10 @@ class MatchTagService
 
   def bot_deliver_jukebox_guide_message
     Settings.reload!
-    hot_tags = Tag.order(searched_count: :desc).limit(5)
-    tag_list = ""
-    hot_tags.each do |tag|
-      tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
-    end
-    message = Settings.guide_message +
-             "\n\n" +
-             tag_list +
-            "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您"
+    message = Settings.guide_message + "\n\n" +
+              "【 mh 】熱門主題"+ "\n" +
+              "【 ma 】全部主題"+ "\n\n" +
+              "請回傳【  】內的代碼以獲取主題清單。"
     { text: message }
   end
 
