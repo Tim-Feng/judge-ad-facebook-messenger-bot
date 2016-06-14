@@ -34,10 +34,10 @@ class MatchTagService
       tags.each do |tag|
         tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
       end
-      return "這支影片的標籤有：" +
+      return "這支影片包含的主題有：" +
              "\n\n" +
              tag_list +
-             "\n請挑一個您有興趣的標籤，並且回傳【  】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您，如果要看熱門標籤，請回覆【mh】"
+             "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您，如果要看熱門主題，請回覆 mh"
     end
   end
 
@@ -53,11 +53,11 @@ class MatchTagService
             {
               type: "web_url",
               url: cf.video_url,
-              title: "立刻觀看"
+              title: "另開分頁觀看"
             },
             {
               type: "postback",
-              title: "影片標籤",
+              title: "更多相關主題",
               payload: "CF_TAGS_OF_#{cf.id}"
             }
           ]
@@ -113,7 +113,7 @@ class MatchTagService
     message = Settings.guide_message +
              "\n\n" +
              tag_list +
-            "\n請挑一個您有興趣的標籤，並且回傳【  】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您"
+            "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您"
     { text: message }
   end
 
@@ -124,10 +124,10 @@ class MatchTagService
     hot_tags.each do |tag|
       tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
     end
-    message = "目前的熱門標籤依序是：" +
+    message = "目前的熱門主題依序是：" +
              "\n\n" +
              tag_list +
-            "\n請挑一個您有興趣的標籤，並且回傳【  】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您，如果要看熱門標籤，請回覆【ma】"
+            "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您，如果要看熱門主題，請回覆 ma"
     { text: message }
   end
 
@@ -138,10 +138,10 @@ class MatchTagService
     all_tags.each do |tag|
       tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
     end
-    message = "以下是所有標籤，依照熱門程度排列：" +
+    message = "以下是所有主題，依照熱門程度排列：" +
              "\n\n" +
              tag_list +
-            "\n請挑一個您有興趣的標籤，並且回傳【  】內的代碼，我將從這個標籤中隨機挑三支廣告回覆給您，如果要看熱門標籤，請回覆【mh】"
+            "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您，如果要看熱門主題，請回覆 mh"
     { text: message }
   end
 
