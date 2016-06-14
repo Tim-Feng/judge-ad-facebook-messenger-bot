@@ -125,7 +125,7 @@ class MatchTagService
              "\n\n" +
              tag_list +
             "\n請回傳【  】內的代碼，隨機欣賞三支廣告" + "\n\n" +
-            "看所有主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
+            "看其他頁的主題清單，請回覆【 ma1 】【 ma2 】【 ma3 】"
     { text: message }
   end
 
@@ -145,7 +145,7 @@ class MatchTagService
              tag_list +
             "\n請回傳【  】內的代碼，隨機欣賞三支廣告。" + "\n\n" +
             "看熱門主題，請回覆【 mh 】" + "\n\n" +
-            "看其他主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
+            "看其他頁的主題清單，請回覆【 ma1 】【 ma2 】【 ma3 】"
     { text: message }
   end
 
