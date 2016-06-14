@@ -117,7 +117,7 @@ class MatchTagService
     hot_tags = Tag.order(searched_count: :desc).limit(5)
     tag_list = ""
     hot_tags.each do |tag|
-      tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
+      tag_list = tag_list + "【m#{tag.id}】#{tag.name}" + "\n"
     end
     message = "目前的熱門主題依序是：" +
              "\n\n" +
@@ -131,7 +131,7 @@ class MatchTagService
     all_tags = Tag.order(searched_count: :desc)
     tag_list = ""
     all_tags.each do |tag|
-      tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
+      tag_list = tag_list + "【m#{tag.id}】#{tag.name}" + "\n"
     end
     message = "以下是所有主題，依照熱門程度排列：" +
              "\n\n" +
