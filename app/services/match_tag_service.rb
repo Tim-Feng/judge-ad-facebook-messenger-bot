@@ -124,7 +124,7 @@ class MatchTagService
     message = "目前的熱門主題依序是：" +
              "\n\n" +
              tag_list +
-            "\n請回傳【  】內的代碼，隨機欣賞三支廣告" + "\n\n"
+            "\n請回傳【  】內的代碼，隨機欣賞三支廣告" + "\n\n" +
             "看所有主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
     { text: message }
   end
@@ -143,8 +143,8 @@ class MatchTagService
     message = "以下是所有主題的第#{page_of_tag} / #{total_page}頁：" +
              "\n\n" +
              tag_list +
-            "\n請回傳【  】內的代碼，隨機欣賞三支廣告。" + "\n\n"
-            "看熱門主題，請回覆【 mh 】" + "\n\n"
+            "\n請回傳【  】內的代碼，隨機欣賞三支廣告。" + "\n\n" +
+            "看熱門主題，請回覆【 mh 】" + "\n\n" +
             "看其他主題，請回覆【 ma1 】【 ma2 】【 ma3 】"
     { text: message }
   end
