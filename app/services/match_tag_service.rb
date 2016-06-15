@@ -145,7 +145,7 @@ class MatchTagService
              tag_list +
             "\n請回傳【  】內的代碼，隨機欣賞三支廣告。" + "\n\n" +
             "看熱門主題，請回覆【 mh 】" + "\n\n" +
-            "看主題清單，請回覆【 ma 】"
+            "看主題清單，請回覆【 ma 】，您目前的位置是【 #{@text} 】"
     { text: message }
   end
 
