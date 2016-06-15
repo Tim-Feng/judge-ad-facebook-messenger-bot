@@ -18,8 +18,10 @@ class MatchTagService
         return bot_deliver_cf(random_cf)
       when "mh"
         bot_deliver_hot_tag
+      when "ma"
+        bot_deliver_tag_page_list
       when "ma1", "ma2", "ma3"
-        bot_deliver_all_tag
+        bot_deliver_tag_by_page
       end
     rescue => e
       return
@@ -107,9 +109,7 @@ class MatchTagService
     Settings.reload!
     message = Settings.guide_message + "\n\n" +
               "【 mh 】熱門主題"+ "\n" +
-              "【 ma1 】全部主題第一頁"+ "\n" +
-              "【 ma2 】全部主題第二頁"+ "\n" +
-              "【 ma3 】全部主題第三頁"+ "\n\n" +
+              "【 ma 】全部主題"+ "\n\n" +
               "請回傳【  】內的代碼以獲取主題清單。"
     { text: message }
   end
@@ -125,11 +125,11 @@ class MatchTagService
              "\n\n" +
              tag_list +
             "\n請回傳【  】內的代碼，隨機欣賞三支廣告" + "\n\n" +
-            "看其他頁的主題清單，請回覆【 ma1 】【 ma2 】【 ma3 】"
+            "看主題清單，請回覆【 ma 】"
     { text: message }
   end
 
-  def bot_deliver_all_tag
+  def bot_deliver_tag_by_page
     Settings.reload!
     tag_count     = Tag.all.count
     total_page    = (tag_count % 10 == 0) ? (tag_count / 10 ) : (tag_count / 10 + 1)
@@ -145,7 +145,15 @@ class MatchTagService
              tag_list +
             "\n請回傳【  】內的代碼，隨機欣賞三支廣告。" + "\n\n" +
             "看熱門主題，請回覆【 mh 】" + "\n\n" +
-            "看其他頁的主題清單，請回覆【 ma1 】【 ma2 】【 ma3 】"
+            "看主題清單，請回覆【 ma 】"
+    { text: message }
+  end
+
+  def bot_deliver_tag_page_list
+    message = "【 ma1 】全部主題第一頁"+ "\n" +
+              "【 ma2 】全部主題第二頁"+ "\n" +
+              "【 ma3 】全部主題第三頁"+ "\n\n" +
+              "請回傳【  】內的代碼以獲取主題清單。"
     { text: message }
   end
 
