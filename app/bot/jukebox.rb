@@ -9,7 +9,7 @@ Bot.on :message do |message|
     result = MatchTagService.new.match(message.sender["id"], message.text.downcase)
    # if matched, then return bot message, or return nothing
     begin
-      if result[:text].is_a? String
+      if result
         Bot.deliver(
           recipient: message.sender,
           message: result
