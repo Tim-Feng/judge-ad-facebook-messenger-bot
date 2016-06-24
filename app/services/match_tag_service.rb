@@ -5,11 +5,15 @@ class MatchTagService
     # if matched, record which user searched what tag,
     # if not matched, return nothing
     begin
+      return message_for_including_parentheses if is_message_with_parentheses?
+      return message_for_m_in_chinese if is_message_with_m_in_chinese?
+      return thank_you_message if is_message_thank_you?
+
       case @text
-      when "阿福"
-        bot_deliver_greeting_message
+      when "阿福", "hi"
+        greeting
       when "m"
-        bot_deliver_jukebox_guide_message
+        reply_jukebox_guide
       when "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "m10", "m11", "m12", "m13", "m14", "m15", "m16", "m17", "m18", "m19", "m20", "m21", "m22", "m23", "m24", "m25"
         register_user
         increase_tag_searched_count
@@ -17,11 +21,11 @@ class MatchTagService
         random_cf = reply_random_cf
         return bot_deliver_cf(random_cf)
       when "mh"
-        bot_deliver_hot_tag
+        reply_hot_tag
       when "ma"
-        bot_deliver_tag_page_list
+        reply_tag_page_list
       when "ma1", "ma2", "ma3"
-        bot_deliver_tag_by_page
+        reply_tag_by_page
       end
     rescue => e
       return
@@ -100,12 +104,12 @@ class MatchTagService
     }
   end
 
-  def bot_deliver_greeting_message
+  def greeting
     Settings.reload!
     { text: Settings.greeting_message }
   end
 
-  def bot_deliver_jukebox_guide_message
+  def reply_jukebox_guide
     Settings.reload!
     message = Settings.guide_message + "\n\n" +
               "【 mh 】熱門主題"+ "\n" +
@@ -114,7 +118,7 @@ class MatchTagService
     { text: message }
   end
 
-  def bot_deliver_hot_tag
+  def reply_hot_tag
     Settings.reload!
     hot_tags = Tag.order(searched_count: :desc).limit(5)
     tag_list = ""
@@ -129,7 +133,7 @@ class MatchTagService
     { text: message }
   end
 
-  def bot_deliver_tag_by_page
+  def reply_tag_by_page
     Settings.reload!
     tag_count     = Tag.all.count
     total_page    = (tag_count % 10 == 0) ? (tag_count / 10 ) : (tag_count / 10 + 1)
@@ -149,12 +153,39 @@ class MatchTagService
     { text: message }
   end
 
-  def bot_deliver_tag_page_list
+  def reply_tag_page_list
     message = "【 ma1 】全部主題第一頁"+ "\n" +
               "【 ma2 】全部主題第二頁"+ "\n" +
               "【 ma3 】全部主題第三頁"+ "\n\n" +
               "請回傳【  】內的代碼以獲取主題清單。"
     { text: message }
+  end
+
+  def is_message_with_parentheses?
+    ["(", ")", "【", "】", "（", "）", "“", "\""].any? { |sign| @text.include? sign }
+  end
+
+  def is_message_thank_you?
+    ["thank", "thanks.", "謝謝", "感謝"].any? { |sign| @text.include? sign }
+  end
+
+  def is_message_with_m_in_chinese?
+    @text.include?("Ｍ")
+  end
+
+  def message_for_including_parentheses
+    Settings.reload!
+    { text: Settings.remove_parentheses }
+  end
+
+  def message_for_m_in_chinese
+    Settings.reload!
+    { text: Settings.m_in_chinese }
+  end
+
+  def thank_you_message
+    Settings.reload!
+    { text: Settings.thank_you_message.sample }
   end
 
 end

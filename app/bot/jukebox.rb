@@ -8,12 +8,15 @@ Bot.on :message do |message|
   if message.text
     result = MatchTagService.new.match(message.sender["id"], message.text.downcase)
    # if matched, then return bot message, or return nothing
-    if result
-      Bot.deliver(
-        recipient: message.sender,
-        message: result
-      )
-    else
+    begin
+      if result[:text].is_a? String
+        Bot.deliver(
+          recipient: message.sender,
+          message: result
+        )
+      else
+      end
+    rescue => e
     end
   end
 end

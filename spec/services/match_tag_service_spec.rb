@@ -12,6 +12,26 @@ describe MatchTagService do
         @result == nil
       }
     end
+    context "return error message if message form is wrong" do
+      context "includeing parentheses" do
+        Given(:message) { "(m)" }
+        When {
+          @result = MatchTagService.new.match(sender_id, message)
+        }
+        Then {
+          @result == { text: "不好意思，訊息裡不需要加括號，只要裡面的英文和數字就可以了喔！" }
+        }
+      end
+      context "includeing m in chinese" do
+        Given(:message) { "Ｍ" }
+        When {
+          @result = MatchTagService.new.match(sender_id, message)
+        }
+        Then {
+          @result == { text: "不好意思，要請您用英文輸入法的 m 喔！" }
+        }
+      end
+    end
     context "match message/tag" do
       Given { @tag_1 = create(:tag) }
       Given { @commercial_film_1 = create(:commercial_film) }
@@ -35,10 +55,10 @@ describe MatchTagService do
                       {
                         :type => "web_url",
                         :url => @commercial_film_1.video_url,
-                        :title => "立刻觀看"
+                        :title => "另開分頁觀看"
                       }, {
                         :type => "postback",
-                        :title => "影片標籤",
+                        :title => "更多相關主題",
                         :payload => "CF_TAGS_OF_1"
                       }
                     ]
