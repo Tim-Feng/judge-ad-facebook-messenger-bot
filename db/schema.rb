@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620035023) do
+ActiveRecord::Schema.define(version: 20160624054214) do
 
   create_table "commercial_film_tagships", force: :cascade do |t|
     t.integer "commercial_film_id", limit: 4
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20160620035023) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title",         limit: 255
+    t.text     "short_url",     limit: 65535
   end
 
   create_table "tags", force: :cascade do |t|

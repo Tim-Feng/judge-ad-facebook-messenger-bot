@@ -54,7 +54,7 @@ describe MatchTagService do
                     :buttons => [
                       {
                         :type => "web_url",
-                        :url => @commercial_film_1.video_url,
+                        :url => @commercial_film_1.short_url,
                         :title => "另開分頁觀看"
                       }, {
                         :type => "postback",

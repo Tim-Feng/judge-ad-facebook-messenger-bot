@@ -21,4 +21,5 @@ end
   cf       = CommercialFilm.find_or_create_by(title: row["title"], video_url: row["video_url"])
   create_association_of_cf_and_tag(tag_data, cf)
   cf.update(thumbnail_url: row["thumbnail_url"])
+  cf.update(short_url: row["short_url"])
 end

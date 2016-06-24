@@ -58,7 +58,7 @@ class MatchTagService
           buttons:[
             {
               type: "web_url",
-              url: cf.video_url,
+              url: cf.short_url,
               title: "另開分頁觀看"
             },
             {
