@@ -26,6 +26,12 @@ class MatchTagService
         reply_tag_page_list
       when "ma1", "ma2", "ma3"
         reply_tag_by_page
+      when "noodle", "統一麵"
+        cf = reply_noodle
+        return bot_deliver_cf(cf)
+      when "comment"
+        comment = comment_from_judge
+        return bot_deliver_cf(comment)
       end
     rescue => e
       return
@@ -72,6 +78,45 @@ class MatchTagService
     end
   end
 
+  def bot_deliver_cf(cf)
+    {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: cf
+        }
+      }
+    }
+  end
+
+  def reply_noodle
+    series = UniNoodle.all
+    series.map do |serie|
+      {
+        title: serie.title,
+        image_url: serie.thumbnail_url,
+        buttons:[
+          {
+            type: "web_url",
+            url: serie.video_short_url,
+            title: "觀賞影片"
+          },
+          {
+            type: "web_url",
+            url: serie.ost_short_url,
+            title: "欣賞配樂"
+          },
+          {
+            type: "web_url",
+            url: serie.recipe_short_url,
+            title: "食譜詳解"
+          }
+        ]
+      }
+    end
+  end
+
   def register_user
     User.find_or_create_by(facebook_user_id: @sender_id)
   end
@@ -92,17 +137,6 @@ class MatchTagService
     user.save
   end
 
-  def bot_deliver_cf(random_cf)
-    {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: random_cf
-        }
-      }
-    }
-  end
 
   def greeting
     Settings.reload!
@@ -186,6 +220,22 @@ class MatchTagService
   def thank_you_message
     Settings.reload!
     { text: Settings.thank_you_message.sample }
+  end
+
+  def comment_from_judge
+    [
+      {
+        title: "坎城評審講評",
+        image_url: "http://user-image.logdown.io/user/16748/blog/16108/post/734429/kFyeF3oxQB6ywKZJkfGF_424.jpg",
+        buttons:[
+          {
+            type: "web_url",
+            url: "http://bit.ly/28Wkxnx",
+            title: "觀賞講評"
+          }
+        ]
+      }
+    ]
   end
 
 end

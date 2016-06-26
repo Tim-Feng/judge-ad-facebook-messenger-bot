@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160624054214) do
+ActiveRecord::Schema.define(version: 20160625132614) do
 
   create_table "commercial_film_tagships", force: :cascade do |t|
     t.integer "commercial_film_id", limit: 4
@@ -32,6 +32,20 @@ ActiveRecord::Schema.define(version: 20160624054214) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "searched_count", limit: 4,   default: 0
+  end
+
+  create_table "uni_noodles", force: :cascade do |t|
+    t.text     "video_url",        limit: 65535
+    t.text     "video_short_url",  limit: 65535
+    t.text     "ost_url",          limit: 65535
+    t.text     "ost_short_url",    limit: 65535
+    t.text     "recipe_url",       limit: 65535
+    t.text     "recipe_short_url", limit: 65535
+    t.string   "title",            limit: 255
+    t.string   "ost_title",        limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "thumbnail_url",    limit: 65535
   end
 
   create_table "users", force: :cascade do |t|

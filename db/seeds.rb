@@ -7,3 +7,4 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 require './db/seeds/tag.rb'
 require './db/seeds/commercial_film.rb'
+require './db/seeds/uni_noodle.rb'
