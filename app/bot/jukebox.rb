@@ -5,6 +5,8 @@ Bot.on :message do |message|
   message.sender
   message.seq
   message.text
+
+  Rails.logger.info { "[Process Begins] #{Time.now}" }
   if message.text
     result = MatchTagService.new.match(message.sender["id"], message.text.downcase)
    # if matched, then return bot message, or return nothing
@@ -19,6 +21,8 @@ Bot.on :message do |message|
     rescue => e
     end
   end
+  Rails.logger.info { "[Process Ends] #{Time.now}" }
+
 end
 
 Bot.on :postback do |postback|
