@@ -10,11 +10,11 @@ class MatchTagService
       return thank_you_message if is_message_thank_you?
 
       case @text
-      when "阿福", "hi"
+      when "阿福", "hi", "嗨", "哈囉"
         greeting
       when "m"
         reply_jukebox_guide
-      when "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "m10", "m11", "m12", "m13", "m14", "m15", "m16", "m17", "m18", "m19", "m20", "m21", "m22", "m23", "m24", "m25"
+      when "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "m10", "m11", "m12", "m13", "m14", "m15", "m16", "m17", "m18", "m19", "m20", "m21", "m22", "m23", "m24", "m25", "m26"
         register_user
         increase_tag_searched_count
         increate_user_searched_tag_and_count
@@ -200,7 +200,7 @@ class MatchTagService
   end
 
   def is_message_thank_you?
-    ["thank", "thanks.", "謝謝", "感謝"].any? { |sign| @text.include? sign }
+    ["thank", "thanks.", "謝謝", "感謝", "感恩", "thx", "謝拉", "謝啦"].any? { |sign| @text.include? sign }
   end
 
   def is_message_with_m_in_chinese?
