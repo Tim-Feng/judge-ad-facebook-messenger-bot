@@ -32,6 +32,11 @@ class MatchTagService
       when "comment"
         comment = comment_from_judge
         return bot_deliver_cf(comment)
+      when "typhoon"
+        register_user
+        tags = ["m24", "m12"]
+        typhoon_cf = reply_multiple_cf(tags)
+        return bot_deliver_cf(typhoon_cf)
       end
     rescue => e
       return
@@ -236,6 +241,36 @@ class MatchTagService
         ]
       }
     ]
+  end
+
+  def reply_multiple_cf(tags)
+    tags = tags.map do |tag|
+      tag_id = tag.gsub('m', '').to_i
+      Tag.find(tag_id)
+    end
+    typhoon_cf = []
+    tags.each do |tag|
+      typhoon_cf << tag.commercial_films.where(id: tag.commercial_films.pluck(:id).sample(1))
+    end
+    # typhoon_cf is an array
+    typhoon_cf.map do |cf|
+      {
+        title: cf.title,
+        image_url: cf.thumbnail_url,
+        buttons:[
+          {
+            type: "web_url",
+            url: cf.short_url,
+            title: "另開分頁觀看"
+          },
+          {
+            type: "postback",
+            title: "更多相關主題",
+            payload: "CF_TAGS_OF_#{cf.id}"
+          }
+        ]
+      }
+    end
   end
 
 end
