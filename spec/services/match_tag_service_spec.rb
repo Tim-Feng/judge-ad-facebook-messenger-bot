@@ -19,7 +19,7 @@ describe MatchTagService do
           @result = MatchTagService.new.match(sender_id, message)
         }
         Then {
-          @result == { text: "不好意思，訊息裡不需要加括號，只要裡面的英文和數字就可以了喔！" }
+          @result == { text: "不好意思，點播主題不需要加括號，只要裡面的英文和數字就可以了喔！" }
         }
       end
       context "includeing m in chinese" do
@@ -39,6 +39,102 @@ describe MatchTagService do
 
       context "return corresponding CF" do
         Given(:message) { "m1" }
+        When {
+          @result = MatchTagService.new.match(sender_id, message)
+        }
+        Then {
+          @result == {
+            attachment: {
+              type: "template",
+              payload: {
+                template_type: "generic",
+                elements: [
+                  { :title => @commercial_film_1.title,
+                    :image_url => @commercial_film_1.thumbnail_url,
+                    :buttons => [
+                      {
+                        :type => "web_url",
+                        :url => @commercial_film_1.short_url,
+                        :title => "另開分頁觀看"
+                      }, {
+                        :type => "postback",
+                        :title => "更多相關主題",
+                        :payload => "CF_TAGS_OF_1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      end
+      context "return corresponding CF" do
+        Given(:message) { "我有關鍵字m1" }
+        When {
+          @result = MatchTagService.new.match(sender_id, message)
+        }
+        Then {
+          @result == {
+            attachment: {
+              type: "template",
+              payload: {
+                template_type: "generic",
+                elements: [
+                  { :title => @commercial_film_1.title,
+                    :image_url => @commercial_film_1.thumbnail_url,
+                    :buttons => [
+                      {
+                        :type => "web_url",
+                        :url => @commercial_film_1.short_url,
+                        :title => "另開分頁觀看"
+                      }, {
+                        :type => "postback",
+                        :title => "更多相關主題",
+                        :payload => "CF_TAGS_OF_1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      end
+      context "return corresponding CF" do
+        Given(:message) { "我有關鍵字m1m2" }
+        When {
+          @result = MatchTagService.new.match(sender_id, message)
+        }
+        Then {
+          @result == {
+            attachment: {
+              type: "template",
+              payload: {
+                template_type: "generic",
+                elements: [
+                  { :title => @commercial_film_1.title,
+                    :image_url => @commercial_film_1.thumbnail_url,
+                    :buttons => [
+                      {
+                        :type => "web_url",
+                        :url => @commercial_film_1.short_url,
+                        :title => "另開分頁觀看"
+                      }, {
+                        :type => "postback",
+                        :title => "更多相關主題",
+                        :payload => "CF_TAGS_OF_1"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      end
+      context "return corresponding CF" do
+        Given(:message) { "m1!謝謝你!!![m5]m2 謝謝您 辛苦了^^m24![m]" }
         When {
           @result = MatchTagService.new.match(sender_id, message)
         }

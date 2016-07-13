@@ -1,6 +1,6 @@
 class MatchTagService
   def match(sender_id, message)
-    @text      = message
+    @text      = extract_key_word(message)
     @sender_id = sender_id
     # if matched, record which user searched what tag,
     # if not matched, return nothing
@@ -36,6 +36,10 @@ class MatchTagService
     rescue => e
       return
     end
+  end
+
+  def extract_key_word(message)
+    message.match(/(?:m)[0-9]+/) ? message.match(/(?:m)[0-9]+/)[0] : message
   end
 
   def find_tags(payload)
@@ -196,7 +200,7 @@ class MatchTagService
   end
 
   def is_message_with_parentheses?
-    ["(", ")", "【", "】", "（", "）", "“", "\""].any? { |sign| @text.include? sign }
+    ["(m", "【m", "（m", "“m", "[m"].any? { |sign| @text.include? sign }
   end
 
   def is_message_thank_you?
