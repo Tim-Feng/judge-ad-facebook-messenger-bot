@@ -1,6 +1,6 @@
 class MatchTagService
   def match(sender_id, message)
-    @text      = extract_key_word(message)
+    @text      = message
     @sender_id = sender_id
     # if matched, record which user searched what tag,
     # if not matched, return nothing
@@ -36,10 +36,6 @@ class MatchTagService
     rescue => e
       return
     end
-  end
-
-  def extract_key_word(message)
-    message.match(/(?:m)[0-9]+/)
   end
 
   def find_tags(payload)
