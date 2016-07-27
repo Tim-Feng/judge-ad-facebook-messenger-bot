@@ -48,19 +48,13 @@ class MatchTagService
     tag_list = ""
     if tags
       tags.each do |tag|
-        tag_list = tag_list + "- #{tag.name}" + "\n"
+        tag_list = tag_list + "- 【m#{tag.id}】#{tag.name}" + "\n"
       end
-      # TODO quick reply limit is 10
-      message = "這支影片包含的主題有：" +
+      return "這支影片包含的主題有：" +
              "\n\n" +
              tag_list +
-             "\n請於下方點選你想看的主題，隨機欣賞三支廣告，或點擊'熱門主題'"
-      {
-        text: message,
-        quick_replies: quick_reply(tags) << {:content_type=>"text", :title=>"熱門主題", :payload=>"mh"}
-       }
+             "\n請挑一個您有興趣的主題，並且回傳【  】內的代碼，我將從這個主題中隨機挑三支廣告回覆給您，如果要看熱門主題，請回覆【 mh 】"
     end
-
   end
 
   def reply_random_cf
@@ -166,48 +160,43 @@ class MatchTagService
     Settings.reload!
     hot_tags = Tag.order(searched_count: :desc).limit(5)
     tag_list = ""
-    hot_tags.each_with_index do |tag, index|
-      tag_list = tag_list + "#{index + 1}. #{tag.name}" + "\n"
+    hot_tags.each do |tag|
+      tag_list = tag_list + "【m#{tag.id}】#{tag.name}" + "\n"
     end
-    message = "目前的 Top 5 熱門主題依序是：" +
+    message = "目前的熱門主題依序是：" +
              "\n\n" +
              tag_list +
-            "\n請於下方點選你想看的主題，隨機欣賞三支廣告，或點擊'全部主題'"
-    {
-      text: message,
-      quick_replies: quick_reply(hot_tags) << {:content_type=>"text", :title=>"全部主題", :payload=>"ma"}
-     }
+            "\n請回傳【  】內的代碼，隨機欣賞三支廣告" + "\n\n" +
+            "看主題清單，請回覆【 ma 】"
+    { text: message }
   end
 
   def reply_tag_by_page
     Settings.reload!
     tag_count     = Tag.all.count
-    total_page    = (tag_count % 9 == 0) ? (tag_count / 9 ) : (tag_count / 9 + 1)
+    total_page    = (tag_count % 10 == 0) ? (tag_count / 10 ) : (tag_count / 10 + 1)
     page_of_tag   = @text.gsub("ma","").to_i
-    offset_of_tag = (  page_of_tag - 1) * 9
-    all_tags      = Tag.limit(9).offset(offset_of_tag)
+    offset_of_tag = (  page_of_tag - 1) * 10
+    all_tags      = Tag.limit(10).offset(offset_of_tag)
     tag_list      = ""
     all_tags.each do |tag|
       tag_list = tag_list + "【m#{tag.id}】#{tag.name}" + "\n"
     end
-    message = "以下是所有主題的第#{page_of_tag} / #{total_page}頁，請於下方點選你想看的主題，隨機欣賞三支廣告。"
-
-    { text: message,
-      quick_replies: quick_reply(all_tags) << {:content_type=>"text", :title=>"全部主題", :payload=>"ma"}
-    }
+    message = "以下是所有主題的第#{page_of_tag} / #{total_page}頁：" +
+             "\n\n" +
+             tag_list +
+            "\n請回傳【  】內的代碼，隨機欣賞三支廣告。" + "\n\n" +
+            "看熱門主題，請回覆【 mh 】" + "\n\n" +
+            "看主題清單，請回覆【 ma 】，您目前的位置是【 #{@text} 】"
+    { text: message }
   end
 
   def reply_tag_page_list
-    tag_count     = Tag.all.count
-    total_page    = (tag_count % 9 == 0) ? (tag_count / 9 ) : (tag_count / 9 + 1)
-    message = "目前全部的主題有 #{tag_count} 項，一共有 #{total_page} 頁，請點選下方頁碼。"
-    { text: message,
-      quick_replies: [
-        {:content_type=>"text", :title=>"第一頁", :payload=>"ma1"},
-        {:content_type=>"text", :title=>"第二頁", :payload=>"ma2"},
-        {:content_type=>"text", :title=>"第三頁", :payload=>"ma3"}
-      ]
-     }
+    message = "【 ma1 】全部主題第一頁"+ "\n" +
+              "【 ma2 】全部主題第二頁"+ "\n" +
+              "【 ma3 】全部主題第三頁"+ "\n\n" +
+              "請回傳【  】內的代碼以獲取主題清單。"
+    { text: message }
   end
 
   def is_message_with_parentheses?
@@ -252,15 +241,4 @@ class MatchTagService
       }
     ]
   end
-
-  def quick_reply(tags)
-    tags.map do |tag|
-      {
-        content_type: "text",
-        title: tag.name,
-        payload: "m#{tag.id}"
-      }
-    end
-  end
-
 end
