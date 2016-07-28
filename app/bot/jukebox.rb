@@ -12,17 +12,20 @@ Bot.on :message do |message|
   elsif message.text
     exact_message = message.text.downcase
   end
-  result = MatchTagService.new.match(message.sender["id"], exact_message)
- # if matched, then return bot message, or return nothing
-  begin
-    if result
-      Bot.deliver(
-        recipient: message.sender,
-        message: result
-      )
-    else
+
+  if exact_message
+    result = MatchTagService.new.match(message.sender["id"], exact_message)
+   # if matched, then return bot message, or return nothing
+    begin
+      if result
+        Bot.deliver(
+          recipient: message.sender,
+          message: result
+        )
+      else
+      end
+    rescue => e
     end
-  rescue => e
   end
   Rails.logger.info { "[Process Ends] #{Time.now}" }
 
