@@ -50,8 +50,8 @@ class MatchTagService
     tags     = CommercialFilm.find(cf_id).tags
     tag_list = ""
     if tags
-      tags.each do |tag|
-        tag_list = tag_list + "- #{tag.name}" + "\n"
+      tags.each_with_index do |tag, index|
+        tag_list = tag_list + "#{index + 1}. #{tag.name}" + "\n"
       end
       # TODO quick reply limit is 10
       message = "這支影片包含的主題有：" +
@@ -230,12 +230,13 @@ class MatchTagService
     all_tags      = Tag.limit(9).offset(offset_of_tag)
     tag_list      = ""
     all_tags.each do |tag|
-      tag_list = tag_list + "【m#{tag.id}】#{tag.name}" + "\n"
+      tag_list = tag_list + "#{tag.id}. #{tag.name}" + "\n"
     end
-    message = "以下是所有主題的第#{page_of_tag} / #{total_page}頁，請於下方點選你想看的主題，隨機欣賞三支廣告。"
-
+    message = "以下是所有主題的第#{page_of_tag} / #{total_page}頁，請於下方點選你想看的主題，隨機欣賞三支廣告。" +
+              "\n\n" +
+              tag_list
     { text: message,
-      quick_replies: quick_reply(all_tags) << {:content_type=>"text", :title=>"全部主題", :payload=>"ma"}
+      quick_replies: quick_reply_with_id(all_tags) << {:content_type=>"text", :title=>"全部主題", :payload=>"ma"}
     }
   end
 
@@ -296,10 +297,20 @@ class MatchTagService
   end
 
   def quick_reply(tags)
+    tags.map.with_index do |tag, index|
+      {
+        content_type: "text",
+        title: index + 1,
+        payload: "m#{tag.id}"
+      }
+    end
+  end
+
+  def quick_reply_with_id(tags)
     tags.map do |tag|
       {
         content_type: "text",
-        title: tag.name,
+        title: tag.id,
         payload: "m#{tag.id}"
       }
     end
