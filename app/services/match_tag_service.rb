@@ -84,6 +84,11 @@ class MatchTagService
               type: "postback",
               title: "更多相關主題",
               payload: "CF_TAGS_OF_#{cf.id}"
+            },
+            {
+              type: "postback",
+              title: "熱門主題",
+              payload: "mh"
             }
           ]
         }
