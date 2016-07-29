@@ -92,7 +92,7 @@ class MatchTagService
   end
 
   def random_1_cf
-    random_cf = CommercialFilm.all.sample(1)
+    random_cf = CommercialFilm.where.not(thumbnail_url: nil).sample(1)
     # random_cf is an array
     random_cf.map do |cf|
       {
