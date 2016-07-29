@@ -5,7 +5,10 @@ Bot.on :message do |message|
   message.sender
   message.seq
   message.text
-
+  Bot.deliver(
+    recipient: message.sender,
+    sender_action: "typing_on"
+  )
   Rails.logger.info { "[Process Begins] #{Time.now}" }
   if message.messaging["message"]["quick_reply"]
     exact_message = message.messaging["message"]["quick_reply"]["payload"]
@@ -41,5 +44,12 @@ Bot.on :postback do |postback|
       recipient: postback.sender,
       message: result
     )
+  elsif postback.payload
+    result = MatchTagService.new.match(postback.sender["id"], postback.payload)
+    Bot.deliver(
+      recipient: postback.sender,
+      message: result
+    )
+  else
   end
 end

@@ -32,6 +32,9 @@ class MatchTagService
       when "comment"
         comment = comment_from_judge
         return bot_deliver_cf(comment)
+      when "good_luck"
+        random_cf = random_1_cf
+        return bot_deliver_cf(random_cf)
       end
     rescue => e
       return
@@ -85,6 +88,29 @@ class MatchTagService
           ]
         }
       end
+    end
+  end
+
+  def random_1_cf
+    random_cf = CommercialFilm.all.sample(1)
+    # random_cf is an array
+    random_cf.map do |cf|
+      {
+        title: cf.title,
+        image_url: cf.thumbnail_url,
+        buttons:[
+          {
+            type: "web_url",
+            url: cf.short_url,
+            title: "另開分頁觀看"
+          },
+          {
+            type: "postback",
+            title: "更多相關主題",
+            payload: "CF_TAGS_OF_#{cf.id}"
+          }
+        ]
+      }
     end
   end
 
@@ -155,11 +181,27 @@ class MatchTagService
 
   def reply_jukebox_guide
     Settings.reload!
-    message = Settings.guide_message + "\n\n" +
-              "【 mh 】熱門主題"+ "\n" +
-              "【 ma 】全部主題"+ "\n\n" +
-              "請回傳【  】內的代碼以獲取主題清單。"
-    { text: message }
+    message = Settings.guide_message
+    { attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: message,
+          buttons: [
+            {
+              type: "postback",
+              title: "好手氣",
+              payload: "good_luck"
+            },
+            {
+              type: "postback",
+              title: "熱門主題",
+              payload: "mh"
+            }
+          ]
+        }
+      }
+    }
   end
 
   def reply_hot_tag
