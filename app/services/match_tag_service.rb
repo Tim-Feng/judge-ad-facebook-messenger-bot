@@ -116,8 +116,8 @@ class MatchTagService
           },
           {
             type: "postback",
-            title: "熱門主題",
-            payload: "mh"
+            title: "好手氣",
+            payload: "good_luck"
           }
         ]
       }
