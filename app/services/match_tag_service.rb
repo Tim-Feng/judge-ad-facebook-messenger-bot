@@ -24,7 +24,7 @@ class MatchTagService
         reply_hot_tag
       when "ma"
         reply_tag_page_list
-      when "ma1", "ma2", "ma3"
+      when "ma1", "ma2", "ma3", "ma4"
         reply_tag_by_page
       when "noodle", "統一麵"
         cf = reply_noodle
