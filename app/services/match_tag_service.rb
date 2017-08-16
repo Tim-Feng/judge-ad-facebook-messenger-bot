@@ -258,7 +258,8 @@ class MatchTagService
       quick_replies: [
         {:content_type=>"text", :title=>"第一頁", :payload=>"ma1"},
         {:content_type=>"text", :title=>"第二頁", :payload=>"ma2"},
-        {:content_type=>"text", :title=>"第三頁", :payload=>"ma3"}
+        {:content_type=>"text", :title=>"第三頁", :payload=>"ma3"},
+        {:content_type=>"text", :title=>"第四頁", :payload=>"ma4"}
       ]
      }
   end
