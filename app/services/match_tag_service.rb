@@ -16,7 +16,22 @@ class MatchTagService
         reply_jukebox_guide
       when "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "m10", "m11", "m12", "m13", "m14", "m15", "m16", "m17", "m18", "m19", "m20", "m21", "m22", "m23", "m24", "m25", "m26", "m27", "m28"
         register_user
-        increase_tag_searched_count
+        tag_id = get_topic_id
+        increase_tag_searched_count(tag_id)
+        increate_user_searched_tag_and_count
+        random_cf = reply_random_cf
+        return bot_deliver_cf(random_cf)
+      when "父親節廣告"
+        register_user
+        tag_id = 27
+        increase_tag_searched_count(tag_id)
+        increate_user_searched_tag_and_count
+        random_cf = reply_random_cf
+        return bot_deliver_cf(random_cf)
+      when "母親節廣告"
+        register_user
+        tag_id = 28
+        increase_tag_searched_count(tag_id)
         increate_user_searched_tag_and_count
         random_cf = reply_random_cf
         return bot_deliver_cf(random_cf)
@@ -167,8 +182,11 @@ class MatchTagService
     User.find_or_create_by(facebook_user_id: @sender_id)
   end
 
-  def increase_tag_searched_count
-    tag_id = @text.gsub('m', '').to_i
+  def get_topic_id
+    @text.gsub('m', '').to_i
+  end
+
+  def increase_tag_searched_count(tag_id)
     @tag = Tag.find(tag_id) if tag_id != 0
     @tag.searched_count += 1
     @tag.save
