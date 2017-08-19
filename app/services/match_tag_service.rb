@@ -10,6 +10,8 @@ class MatchTagService
       return thank_you_message if is_message_thank_you?
 
       case @text
+      when "GET_STARTED_PAYLOAD"
+        reply_jukebox_guide
       when "阿福", "hi", "嗨", "哈囉"
         greeting
       when "m"
