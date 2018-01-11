@@ -5,14 +5,19 @@ Bot.on :message do |message|
   message.sender
   message.seq
   message.text
-  Bot.deliver(
-    recipient: message.sender,
-    sender_action: "typing_on"
-  )
+
   Rails.logger.info { "[Process Begins] #{Time.now}" }
   if message.messaging["message"]["quick_reply"]
+    Bot.deliver(
+      recipient: message.sender,
+      sender_action: "typing_on"
+    )
     exact_message = message.messaging["message"]["quick_reply"]["payload"]
   elsif message.text
+    Bot.deliver(
+      recipient: message.sender,
+      sender_action: "typing_on"
+    )
     exact_message = message.text.downcase
   end
 
