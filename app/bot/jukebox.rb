@@ -8,16 +8,8 @@ Bot.on :message do |message|
 
   Rails.logger.info { "[Process Begins] #{Time.now}" }
   if message.messaging["message"]["quick_reply"]
-    Bot.deliver(
-      recipient: message.sender,
-      sender_action: "typing_on"
-    )
     exact_message = message.messaging["message"]["quick_reply"]["payload"]
   elsif message.text
-    Bot.deliver(
-      recipient: message.sender,
-      sender_action: "typing_on"
-    )
     exact_message = message.text.downcase
   end
 
@@ -26,6 +18,10 @@ Bot.on :message do |message|
    # if matched, then return bot message, or return nothing
     begin
       if result
+        Bot.deliver(
+          recipient: message.sender,
+          sender_action: "typing_on"
+        )
         Bot.deliver(
           recipient: message.sender,
           message: result
@@ -45,6 +41,10 @@ Bot.on :postback do |postback|
   postback.payload   # => 'EXTERMINATE'
   if postback.payload.include? 'CF_TAGS_OF_'
     result = MatchTagService.new.find_tags(postback.payload)
+    Bot.deliver(
+      recipient: message.sender,
+      sender_action: "typing_on"
+    )
     Bot.deliver(
       recipient: postback.sender,
       message: result
