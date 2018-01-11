@@ -20,10 +20,6 @@ Bot.on :message do |message|
       if result
         Bot.deliver(
           recipient: message.sender,
-          sender_action: "typing_on"
-        )
-        Bot.deliver(
-          recipient: message.sender,
           message: result
         )
       else
