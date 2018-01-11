@@ -38,10 +38,6 @@ Bot.on :postback do |postback|
   if postback.payload.include? 'CF_TAGS_OF_'
     result = MatchTagService.new.find_tags(postback.payload)
     Bot.deliver(
-      recipient: message.sender,
-      sender_action: "typing_on"
-    )
-    Bot.deliver(
       recipient: postback.sender,
       message: result
     )
