@@ -7,7 +7,6 @@ class MatchTagService
     begin
       return message_for_including_parentheses if is_message_with_parentheses?
       return message_for_m_in_chinese if is_message_with_m_in_chinese?
-      return thank_you_message if is_message_thank_you?
 
       case @text
       when "GET_STARTED_PAYLOAD"
@@ -286,10 +285,6 @@ class MatchTagService
 
   def is_message_with_parentheses?
     ["(m", "【m", "（m", "“m", "[m"].any? { |sign| @text.include? sign }
-  end
-
-  def is_message_thank_you?
-    ["thank", "thanks.", "謝謝", "感謝", "感恩", "thx", "謝拉", "謝啦"].any? { |sign| @text.include? sign }
   end
 
   def is_message_with_m_in_chinese?
