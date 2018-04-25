@@ -52,6 +52,8 @@ class MatchTagService
         random_cf = random_1_cf
         return bot_deliver_cf(random_cf)
       end
+      when "我要參加測試員"
+        reply_line_tester_application
     rescue => e
       return
     end
@@ -340,6 +342,11 @@ class MatchTagService
         payload: "m#{tag.id}"
       }
     end
+  end
+
+  def reply_line_tester_application
+    Settings.reload!
+    { text: Settings.reply_line_tester_application }
   end
 
 end
