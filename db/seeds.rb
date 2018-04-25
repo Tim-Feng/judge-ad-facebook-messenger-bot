@@ -8,3 +8,5 @@
 require './db/seeds/tag.rb'
 require './db/seeds/commercial_film.rb'
 require './db/seeds/uni_noodle.rb'
+require './db/seeds/line_tester_count.rb'
+# require './db/seeds/toyota_film.rb'

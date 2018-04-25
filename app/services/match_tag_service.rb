@@ -345,8 +345,16 @@ class MatchTagService
   end
 
   def reply_line_tester_application
-    Settings.reload!
-    { text: Settings.reply_line_tester_application }
+    count = LineTesterCount.first
+    count.amount += 1
+    count.save
+    if count.amount < 50
+      Settings.reload!
+      { text: Settings.reply_line_tester_application }
+    else
+      Settings.reload!
+      { text: Settings.reply_line_tester_application_over }
+    end
   end
 
 end
