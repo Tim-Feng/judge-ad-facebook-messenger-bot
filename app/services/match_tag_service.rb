@@ -51,9 +51,9 @@ class MatchTagService
       when "good_luck"
         random_cf = random_1_cf
         return bot_deliver_cf(random_cf)
-      end
       when "我要參加測試員"
         reply_line_tester_application
+      end
     rescue => e
       return
     end
