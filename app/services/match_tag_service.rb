@@ -53,6 +53,8 @@ class MatchTagService
         return bot_deliver_cf(random_cf)
       when "我要參加測試員"
         reply_line_tester_application
+      when "liked_date"
+        reply_how_to_setup_privacy_setting
       end
     rescue => e
       return
@@ -210,6 +212,11 @@ class MatchTagService
     { text: Settings.greeting_message }
   end
 
+  def reply_how_to_setup_privacy_setting
+    Settings.reload!
+    { text: Settings.how_to_setup_privacy_setting }
+  end
+
   def reply_jukebox_guide
     Settings.reload!
     message = Settings.guide_message
@@ -228,6 +235,11 @@ class MatchTagService
               type: "postback",
               title: "熱門主題",
               payload: "mh"
+            },
+            {
+              type: "postback",
+              title: "如何查讚",
+              payload: "liked_date"
             }
           ]
         }
