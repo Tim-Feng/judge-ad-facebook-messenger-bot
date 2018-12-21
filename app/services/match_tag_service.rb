@@ -238,7 +238,7 @@ class MatchTagService
             },
             {
               type: "postback",
-              title: "如何查按讚日期",
+              title: "查詢按讚日期設定",
               payload: "liked_date"
             }
           ]
